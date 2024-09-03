@@ -2,23 +2,21 @@ import { useState } from 'react'
 import Start from './components/Start'
 import Generator from './components/Generator'
 import Workout from './components/Workout'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
     <>
-      <div>
+      <main className='min-h-screen flex flex-col bg-gradient-to-r from-slate-800 to-slate-950 text-white text-sm sm:text-base'>
         <Start     />
         <Generator />
         <Workout   />
 
-      </div>
+      </main>
       
     </>
   )
 }
 
-export default App
+export default App;
