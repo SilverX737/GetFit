@@ -1,7 +1,7 @@
 import React from "react";
 import Button from './Button'
 
-const Start = () => {
+const Main = () => {
     return(
         <div className='min-h-screen flex flex-col gap-10 items-center justify-center text-center max-w-[800px] w-full mx-auto p-4'>
             <div className='flex flex-col gap-4'>
@@ -17,4 +17,4 @@ const Start = () => {
     )
 } 
 
-export default Start;
+export default Main;
