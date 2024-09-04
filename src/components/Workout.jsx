@@ -1,8 +1,12 @@
 import React from "react";
+import SectionWrapper from './SectionWrapper'
 
-const Workout = () => {
+const Workout = (props) => {
+    const { workout } = props;
     return(
-        <div>Workout</div>
+        <SectionWrapper id={'workout'} header={"welcome to"} title={['The', 'DANGER', 'zone']}>
+
+        </SectionWrapper>
     )
 }
 
