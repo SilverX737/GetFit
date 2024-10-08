@@ -50,6 +50,7 @@ const ExerciseCard = (props) => {
             </div>
         </div>
     )
+   
 }
 
 export default ExerciseCard;
