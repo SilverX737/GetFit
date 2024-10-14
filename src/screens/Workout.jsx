@@ -1,6 +1,6 @@
 import React from "react";
-import SectionWrapper from './SectionWrapper';
-import ExerciseCard from './ExerciseCard'
+import SectionWrapper from '../components/SectionWrapper';
+import ExerciseCard from '../components/ExerciseCard'
 
 
 const Workout = (props) => {

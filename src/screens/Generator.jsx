@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import SectionWrapper from './SectionWrapper'
+import SectionWrapper from '../components/SectionWrapper'
 import { SCHEMES, WORKOUTS } from '../Exercises'
-import Button from './Button'
+import Button from '../components/Button'
+import { useNavigate } from 'react-router-dom';
 
 function Header(props) {
     const { index, title, description } = props
@@ -19,12 +20,14 @@ function Header(props) {
 const Generator = (props) => {
     const { muscles, setMuscles, poison, setPoison, goal, setGoal, updateWorkout } = props
     const [showModal, setShowModal] = useState(false)
+    const navigate = useNavigate()
 
     // let showModal = false
 
     function toggleModal() {
         setShowModal(!showModal)
     }
+    let home = () => navigate('/');
 
     function updateMuscles(muscleGroup) {
         if (muscles.includes(muscleGroup)) {
@@ -96,6 +99,7 @@ const Generator = (props) => {
                 })}
             </div>
             <Button func={updateWorkout} text={"Formulate"}></Button>
+            <Button func={home} text={"Go back to home page"}></Button>
         </SectionWrapper>
 
     )
