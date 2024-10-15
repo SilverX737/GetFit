@@ -1,8 +1,6 @@
-# React + Vite
+GetFit7
+Welcome to GetFit7, your personalized workout generator designed to help you achieve your fitness goals. Whether you're targeting specific muscle groups, working on strength, hypertrophy, or cardiovascular endurance, GetFit7 tailors workouts to suit your needs.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+🚀 Live Demo
+Check out the live version of the site here: https://getfit7.netlify.app/
