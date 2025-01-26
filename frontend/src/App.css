@@ -30,45 +30,41 @@ a:hover {
 
 /* Navbar Styles */
 nav {
-  background-color: #007bff;
+  background-color: #f9f9f9;
   padding: 1rem;
+  border-bottom: 2px solid #333333;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
-nav-title {
+.nav-title {
   float: left;
   width: fit-content;
-  color: white;
+  color: black;
+  display: flex;
+  align-items: center; /* Vertically align the items */
 }
 
-nav ul {
-  list-style: none;
-  display: flex;
-  justify-content: space-around;
+.nav-title img {
+  width: 60px; /* Adjust image size */
+  height: auto; /* Keep aspect ratio */
+  margin-right: 10px; /* Add some space between image and text */
+}
+.navbar-list {
+  color:blue;
+  display: flex; /* Makes the list horizontal */
+  list-style: none; /* Removes bullet points */
   margin: 0;
   padding: 0;
 }
-
-nav li {
-  float: right;
-  padding-top: 30px;
-  margin-right: 20px;
-  text-align: right;
+.navbar-list li {
+  margin-right: 20px; /* Optional: Add space between list items */
 }
 
-nav a {
-  color: #fff;
-  font-weight: bold;
-}
 
-/* Footer Styles */
-footer {
-  background-color: #333;
-  color: #fff;
-  text-align: center;
-  padding: 1rem 0;
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-}
+
+
+
 
 /* Home Page */
 .home {

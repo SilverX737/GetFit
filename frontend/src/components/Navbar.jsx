@@ -2,14 +2,15 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const Navbar = () => (
-  <nav className="navbar">
-    <div class="nav-title">
+  <nav>
+    <div className="nav-title">
+           <img src="./download.png" alt="Get-Fit Logo" />
             <h1>Get-Fit</h1>
     </div>
     <ul className="navbar-list">
-      <li className="navbar-item"><Link to="/">Home</Link></li>
-      <li className="navbar-item"><Link to="/workout-plans">Workout Plans</Link></li>
-      <li className="navbar-item"><Link to="/exercises">Exercises</Link></li>
+      <li><Link to="/">Home</Link></li>
+      <li><Link to="/workout-plans">Workout Plans</Link></li>
+      <li><Link to="/exercises">Exercises</Link></li>
     </ul>
   </nav>
 );
