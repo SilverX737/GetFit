@@ -79,6 +79,11 @@ nav {
 .home p {
   font-size: 1.2rem;
 }
+.homepage-button{
+  display: flex;
+  justify-content: center;
+  gap: 200px;
+}
 
 /* Workout Plans */
 .workout-plans {
