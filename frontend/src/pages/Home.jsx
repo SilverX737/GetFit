@@ -7,8 +7,8 @@ const Home = () => (
       <p>Your journey to a healthier you starts here.</p>
       <div className= 'homepage-button'>
       <Button  buttonText="New workout" color="#00796B"/>
-      <Button  buttonText="Use Existing workout" color="#03A9F4"/>
-      <Button  buttonText="Use Existing workout" color="#8BC34A"/>
+      <Button  buttonText="Use Existing Routine" color="#03A9F4"/>
+      <Button  buttonText="Continue workout" color="#8BC34A"/>
       </div>
     </div>
   );
