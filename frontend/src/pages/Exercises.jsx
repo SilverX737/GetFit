@@ -1,54 +1,53 @@
 import React, { useState } from "react";
+import ExerciseCard from "../components/ExerciseCard";
 
-const initialExercises = {
-  barbell_bench_press: {
+const exercises = [
+  {
     name: "Barbell Bench Press",
     type: "Compound",
-    description:
-      "Ensure your scapula are retracted when performing the bench press, arms 2 palm widths wider than shoulder width. Lower the bar with your elbows flared at a 45-degree angle from your torso, touching the bar down to your chest at your nipple line.",
-    muscles: ["Chest"],
+    musclesTargeted: ["chest", "shoulders", "triceps"],
+    description: "A strength training exercise targeting the chest, shoulders, and triceps.",
   },
-  prayer_press: {
-    name: "Prayer Press",
-    type: "Accessory",
-    description:
-      "Place a light, weighted plate between the palms of your hands (as if you were praying), and while keeping your scapula retracted, press your hands together while pushing the plate away from you.",
-    muscles: ["Chest"],
+  {
+    name: "Push-ups",
+    type: "Bodyweight",
+    musclesTargeted: ["body", "core"],
+    description: "A basic bodyweight exercise to strengthen the upper body and core.",
   },
-  pec_dec: {
-    name: "Pec Dec Machine",
-    type: "Accessory",
-    description:
-      "Ensure your scapula is retracted and try to puff out your chest while performing this exercise. Make sure you bring the handles together so they touch, and the range of motion should be no more than 90 degrees either side.",
-    muscles: ["Chest"],
-  },
-};
+];
 
 const Exercises = () => {
-  const [exercises, setExercises] = useState(initialExercises);
+  const [selectedMuscle, setSelectedMuscle] = useState(""); // Store selected muscle
 
-  const removeExercise = (key) => {
-    const updatedExercises = { ...exercises };
-    delete updatedExercises[key];
-    setExercises(updatedExercises);
+  // Handle dropdown change
+  const handleFilterChange = (event) => {
+    setSelectedMuscle(event.target.value);
   };
 
+  // Filter exercises based on selected muscle
+  const filteredExercises = selectedMuscle
+    ? exercises.filter((exercise) =>
+        exercise.musclesTargeted.includes(selectedMuscle)
+      )
+    : exercises;
+
   return (
-    <div className="p-6 max-w-3xl mx-auto">
-      <h1 className="text-2xl font-bold mb-4">Exercises</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {Object.entries(exercises).map(([key, exercise]) => (
-          <div key={key} className="p-4 bg-gray-100 rounded-lg shadow-md">
-            <h2 className="text-xl font-semibold">{exercise.name}</h2>
-            <p className="text-sm text-gray-600">{exercise.type}</p>
-            <p className="mt-2">{exercise.description}</p>
-            <button
-              className="mt-3 bg-red-500 text-white px-3 py-1 rounded"
-              onClick={() => removeExercise(key)}
-            >
-              Remove
-            </button>
-          </div>
+    <div>
+      <h1>Filter Exercises by Muscle Group</h1>
+      
+      {/* Dropdown Filter */}
+      <select onChange={handleFilterChange} value={selectedMuscle}>
+        <option value="">All Muscles</option>
+        <option value="chest">Chest</option>
+        <option value="shoulders">Shoulders</option>
+        <option value="triceps">Triceps</option>
+        <option value="core">Core</option>
+      </select>
+
+      <h2>Exercises</h2>
+      <div className="exercise-list">
+        {filteredExercises.map((exercise, index) => (
+          <ExerciseCard key={index} {...exercise} />
         ))}
       </div>
     </div>
