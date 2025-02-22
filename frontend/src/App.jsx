@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './App.css';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
-import WorkoutPlans from './pages/WorkoutPlans';
+import Routines from './pages/Routines';
 import Exercises from './pages/Exercises';
 
 function App() {
@@ -13,7 +13,7 @@ function App() {
       <div className="container">
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/workout-plans" element={<WorkoutPlans />} />
+          <Route path="/Routines" element={<Routines />} />
           <Route path="/exercises" element={<Exercises />} />
         </Routes>
       </div>
