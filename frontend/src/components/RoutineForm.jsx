@@ -1,59 +1,93 @@
 import React, { useState } from "react";
 
-const RoutineForm = ({ exercises, onSave }) => {
+const RoutineForm = ({ onAddRoutine }) => {
   const [routineName, setRoutineName] = useState("");
-  const [selectedExercises, setSelectedExercises] = useState([]);
+  const [numDays, setNumDays] = useState(1);
+  const [days, setDays] = useState([{ day: "Day 1", exercises: [] }]);
 
-  const addExercise = (exercise) => {
-    setSelectedExercises([...selectedExercises, { ...exercise, sets: 3, reps: 10 }]);
+  // Handle number of days change
+  const handleDaysChange = (e) => {
+    const count = parseInt(e.target.value, 10);
+    setNumDays(count);
+    
+    // Update days array dynamically
+    setDays(Array.from({ length: count }, (_, i) => ({
+      day: `Day ${i + 1}`,
+      exercises: [],
+    })));
   };
 
-  const updateExercise = (index, field, value) => {
-    const updatedExercises = [...selectedExercises];
-    updatedExercises[index][field] = value;
-    setSelectedExercises(updatedExercises);
+  // Handle adding exercises
+  const handleExerciseChange = (dayIndex, exerciseIndex, field, value) => {
+    const updatedDays = [...days];
+    updatedDays[dayIndex].exercises[exerciseIndex][field] = value;
+    setDays(updatedDays);
   };
 
-  const saveRoutine = () => {
-    onSave({ name: routineName, exercises: selectedExercises });
+  // Add new exercise to a day
+  const addExercise = (dayIndex) => {
+    const updatedDays = [...days];
+    updatedDays[dayIndex].exercises.push({ name: "", sets: "", reps: "" });
+    setDays(updatedDays);
+  };
+
+  // Submit Routine
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!routineName.trim()) return;
+    onAddRoutine({ id: Date.now(), name: routineName, days });
+    setRoutineName("");
+    setNumDays(1);
+    setDays([{ day: "Day 1", exercises: [] }]);
   };
 
   return (
-    <div>
-      <h2>Create Routine</h2>
-      <input
+    <form onSubmit={handleSubmit} className="routine-form">
+      <h2>Create a New Routine</h2>
+      
+      <input 
         type="text"
         placeholder="Routine Name"
         value={routineName}
         onChange={(e) => setRoutineName(e.target.value)}
+        required
       />
-      <h3>Select Exercises</h3>
-      <ul>
-        {exercises.map((exercise, index) => (
-          <li key={index}>
-            {exercise.name}
-            <button onClick={() => addExercise(exercise)}>Add</button>
-          </li>
+
+      <label>Number of Days:</label>
+      <select value={numDays} onChange={handleDaysChange}>
+        {[1, 2, 3, 4, 5, 6, 7].map((num) => (
+          <option key={num} value={num}>{num} Days</option>
         ))}
-      </ul>
-      <h3>Selected Exercises</h3>
-      {selectedExercises.map((exercise, index) => (
-        <div key={index}>
-          <p>{exercise.name}</p>
-          <input
-            type="number"
-            value={exercise.sets}
-            onChange={(e) => updateExercise(index, "sets", e.target.value)}
-          />
-          <input
-            type="number"
-            value={exercise.reps}
-            onChange={(e) => updateExercise(index, "reps", e.target.value)}
-          />
+      </select>
+
+      {days.map((day, dayIndex) => (
+        <div key={dayIndex} className="day-section">
+          <h3>{day.day}</h3>
+          {day.exercises.map((exercise, exerciseIndex) => (
+            <div key={exerciseIndex} className="exercise-inputs">
+              <input 
+                type="text" 
+                placeholder="Exercise Name" 
+                onChange={(e) => handleExerciseChange(dayIndex, exerciseIndex, "name", e.target.value)}
+              />
+              <input 
+                type="number" 
+                placeholder="Sets" 
+                onChange={(e) => handleExerciseChange(dayIndex, exerciseIndex, "sets", e.target.value)}
+              />
+              <input 
+                type="number" 
+                placeholder="Reps" 
+                onChange={(e) => handleExerciseChange(dayIndex, exerciseIndex, "reps", e.target.value)}
+              />
+            </div>
+          ))}
+          <button type="button" onClick={() => addExercise(dayIndex)}>+ Add Exercise</button>
         </div>
       ))}
-      <button onClick={saveRoutine}>Save Routine</button>
-    </div>
+
+      <button type="submit">Save Routine</button>
+    </form>
   );
 };
 

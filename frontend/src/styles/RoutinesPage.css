@@ -1,0 +1,43 @@
+.routines-page {
+    max-width: 600px;
+    margin: auto;
+    text-align: center;
+  }
+  
+  .routine-list {
+    margin-top: 20px;
+  }
+  
+  .routine-card {
+    background: #f9f9f9;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+  }
+  
+  .routine-details {
+    background: #fff;
+    padding: 10px;
+    border-radius: 6px;
+    margin-top: 10px;
+  }
+  
+  .day-section {
+    margin-top: 15px;
+  }
+  
+  .exercise-inputs input {
+    margin: 5px;
+    padding: 5px;
+  }
+  
+  button {
+    background: #4CAF50;
+    color: white;
+    border: none;
+    padding: 8px;
+    cursor: pointer;
+  }
+  
