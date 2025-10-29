@@ -34,7 +34,9 @@ router.post('/register', async (req, res) => {
       },
     });
 
-    res.status(201).json(newUser);
+    // Exclude sensitive fields before sending response
+    const { password_hash, ...safeUser } = newUser;
+    res.status(201).json(safeUser);
   } catch (error) {
     if (error.code === 'P2002') {
       return res.status(409).json({ error: 'Email already exists' });

@@ -45,6 +45,8 @@ The app's main hub.
 This is the core of the calisthenics route. It visually shows the user their path to mastery for the 3 core "ladders" (Push-up, Pull-up, Squat).
 * **UI:** A collapsible list for each progression, showing mastered (checked off), current (highlighted), and future (locked) steps.
 
+[NEW] Regression/Deload Feature: The user can tap on any step (including previously "mastered" ones) and select "Set as Current Focus." This will manually update their profile (e.g., set profiles.pushup_step from 4 back to 3), allowing them to deload or return from a break. This will also update their guided Program Workout to load the correct exercise.
+
 #### **Screen 4: Workout Logger**
 The main "tracking" screen.
 
