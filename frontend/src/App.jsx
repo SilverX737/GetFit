@@ -7,6 +7,7 @@ import Routines from './pages/Routines';
 import Exercises from './pages/Exercises';
 import Login from './auth/Login';
 import Register from './auth/Register';
+import Onboarding from './onboarding/Onboarding';
 import ProtectedTest from './auth/ProtectedTest';
 import ProtectedRoute from './auth/ProtectedRoute';
 import { getToken } from './api/apiClient';
@@ -30,6 +31,11 @@ function App() {
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/onboarding" element={
+            <ProtectedRoute isAuthed={isAuthed}>
+              <Onboarding />
+            </ProtectedRoute>
+          } />
           <Route path="/protected-test" element={
             <ProtectedRoute isAuthed={isAuthed}>
               <ProtectedTest />

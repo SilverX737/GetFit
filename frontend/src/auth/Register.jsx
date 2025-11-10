@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { register } from '../api/auth';
+import { register, login } from '../api/auth';
 
 export default function Register() {
   const [email, setEmail] = useState('');
@@ -34,7 +34,10 @@ export default function Register() {
     setLoading(true);
     try {
       await register({ email, password, goal, experience, path });
-      navigate('/login', { state: { message: 'Registration successful! Please log in.' } });
+      // Auto-login after registration
+      await login(email, password);
+      window.dispatchEvent(new Event('authChange'));
+      navigate('/onboarding');
     } catch (err) {
       if (err.status === 409) {
         setError('Email already exists');
