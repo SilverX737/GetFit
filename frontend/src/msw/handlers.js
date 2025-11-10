@@ -5,6 +5,16 @@ let MOCK_TOKEN = 'fake.jwt.token';
 const MOCK_USER = { id: 1, email: 'demo@x.com', profile: { path: 'Weightlifting', current_program_id: null, current_program_day: 0, pushup_step: 0, pullup_step: 0, squat_step: 0 } };
 
 export const handlers = [
+  http.post('http://localhost:3000/api/auth/register', async ({ request }) => {
+    const { email, password, goal, experience, path } = await request.json();
+    // Simulate duplicate email check
+    if (email === 'demo@x.com') {
+      return new HttpResponse(JSON.stringify({ error: { message: 'Email already exists' } }), { status: 409, headers: { 'Content-Type': 'application/json' } });
+    }
+    // Return created user (without password_hash)
+    return HttpResponse.json({ id: 2, email, created_at: new Date().toISOString(), profile: { goal, experience, path } }, { status: 201 });
+  }),
+
   http.post('http://localhost:3000/api/auth/login', async ({ request }) => {
     const { email, password } = await request.json();
     if (email === 'demo@x.com' && password === 'demo') {

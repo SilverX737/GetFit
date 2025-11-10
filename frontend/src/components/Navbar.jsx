@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { getToken } from '../api/apiClient';
 import { me, logout } from '../api/auth';
 
-const Navbar = () => {
+const Navbar = ({ onAuthChange }) => {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
 
@@ -19,11 +19,20 @@ const Navbar = () => {
       }
     }
     loadUser();
+
+    // Listen for auth changes
+    function handleAuthChange() {
+      loadUser();
+    }
+    window.addEventListener('authChange', handleAuthChange);
+    return () => window.removeEventListener('authChange', handleAuthChange);
   }, []);
 
   function handleLogout() {
     logout();
     setUser(null);
+    window.dispatchEvent(new Event('authChange'));
+    if (onAuthChange) onAuthChange();
     navigate('/login');
   }
 
@@ -43,7 +52,10 @@ const Navbar = () => {
             <li><button onClick={handleLogout} style={{ cursor: 'pointer' }}>Logout</button></li>
           </>
         ) : (
-          <li><Link to="/login">Login</Link></li>
+          <>
+            <li><Link to="/login">Login</Link></li>
+            <li><Link to="/register">Register</Link></li>
+          </>
         )}
       </ul>
     </nav>

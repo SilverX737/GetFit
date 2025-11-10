@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { login } from '../api/auth';
 
 export default function Login() {
@@ -8,6 +8,8 @@ export default function Login() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+  const successMessage = location.state?.message;
 
   async function onSubmit(e) {
     e.preventDefault();
@@ -15,6 +17,7 @@ export default function Login() {
     setLoading(true);
     try {
       await login(email, password);
+      window.dispatchEvent(new Event('authChange'));
       navigate('/protected-test');
     } catch (err) {
       setError(err.message || 'Login failed');
@@ -36,9 +39,10 @@ export default function Login() {
           <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
         </label>
         <button type="submit" disabled={loading}>{loading ? 'Logging in...' : 'Login'}</button>
+        {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
         {error && <p style={{ color: 'red' }}>{error}</p>}
       </form>
-      <p>Use demo@x.com / demo with mocks enabled.</p>
+      <p>Use demo@x.com / demo with mocks enabled. <a href="/register">Or register a new account</a></p>
     </div>
   );
 }
