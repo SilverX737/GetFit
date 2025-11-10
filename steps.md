@@ -9,6 +9,8 @@ This plan expands the V1 backend to cover authentication, programs, workout logg
   - Create `backend/.env` with `DATABASE_URL`, optional `PORT`.
   - Initialize Prisma client and schema: `npx prisma generate && npx prisma migrate dev`.
   - Verify DB connectivity (optional): `node backend/test.js`.
+  - Add `JWT_SECRET` and `CORS_ORIGIN` to `.env`; fail fast on boot if missing.
+  - Use Prisma as the only DB client; remove any legacy `pg` pools (e.g., `backend/src/db.js`) and update `test.js` to use Prisma (`prisma.$queryRaw('SELECT 1')`).
 - Why
   - Aligns schema and codegen before building features; prevents “migrate later” churn.
   - Early DB verification reduces time debugging app-level issues that are actually env problems.
@@ -39,6 +41,8 @@ This plan expands the V1 backend to cover authentication, programs, workout logg
   - Hash passwords with bcrypt (10–12 rounds). Constant-time compare.
   - On login, generic error for invalid creds (avoid user enumeration).
   - JWT expiry (e.g., 1h). Consider refresh token later (V2).
+  - Require `process.env.JWT_SECRET` (HS256); refuse to start if missing.
+  - Normalize emails to lowercase before unique checks and login.
 - Resources
   - TOP: Authentication Basics; TOP: JSON Web Tokens; Express Security Best Practices; bcrypt docs; jsonwebtoken docs.
 - Tests
@@ -71,6 +75,7 @@ This plan expands the V1 backend to cover authentication, programs, workout logg
 - What
   - Seed `Program`, `ProgramDay`, `ProgramExercise` with at least one weightlifting and one calisthenics program.
   - Endpoints: `GET /api/programs` (list summary), `GET /api/programs/:id` (details with days + exercises).
+  - Add Prisma seeding scaffold: create `prisma/seed.js` and set `"prisma": { "seed": "node prisma/seed.js" }` in `package.json`.
 - Why
   - Enables onboarding to pick a program and powers pre-populated workouts.
 - API
@@ -185,10 +190,12 @@ This plan expands the V1 backend to cover authentication, programs, workout logg
 ### Step 10: Validation, Errors, and Security Hardening
 - What
   - Input validation (express-validator/zod), centralized error handler, Helmet, CORS configuration, rate limiting, JWT expiry/clock skew handling.
+  - Strict CORS origin whitelist, JSON/body size limits (e.g., 100kb), sensible request timeouts, and per-route rate limits for auth.
 - Why
   - Improves reliability and security; consistent error shapes helps the frontend.
 - Notes
   - Standardize error response: { error: { code, message, details? } }.
+  - Expose API docs at `/api/docs` (Swagger UI/Redoc) generated from an OpenAPI spec kept in-repo.
 - Resources
   - TOP: NodeJS best practices & security; Express: security; OWASP Top 10.
 - Tests
@@ -200,6 +207,7 @@ This plan expands the V1 backend to cover authentication, programs, workout logg
 - What
   - Add indexes: `Workout.profileId`, `ExerciseLog.workoutId`, `ProgramDay.program_id`.
   - Consider composite indexes if filtering by (profileId, timestamp DESC).
+  - Use `Decimal` for weight fields in Prisma to avoid float rounding issues; prefer UTC for all timestamps.
 - Why
   - Prevents N+1 patterns from turning into slow queries as data grows.
 - Resources
@@ -212,6 +220,10 @@ This plan expands the V1 backend to cover authentication, programs, workout logg
 ### Step 12: Seeds, Healthcheck, Logging, and Minimal Tests
 - What
   - Seed initial programs; `GET /health` returns service + DB status; request logging (morgan/pino); minimal integration tests for auth and workout logging.
+  - Logging: prefer `pino`/`pino-http` with a request-id for correlation; optional error reporting via Sentry.
+  - Testing: set up Jest with a separate test database and npm scripts.
+  - CI: GitHub Actions workflow that runs install, `prisma generate`, `prisma migrate deploy` (with a shadow DB), and tests on PRs.
+  - Deployment: Dockerfile/Compose with app + Postgres; run `prisma migrate deploy` on startup; include container healthchecks.
 - Why
   - Seeds accelerate local dev; healthchecks and logs aid deploy & debugging; tests guard core flows.
 - Resources
@@ -230,6 +242,7 @@ Deliverables Checklist (Backend V1)
 - History/Dashboard: list, details, last workout
 - Hardening: validation, errors, security basics
 - Seeds/Indexes/Health/Logging/Minimal tests
+- Docs/CI/Deploy: OpenAPI docs at /api/docs, CI pipeline, containerized deploy with migrate deploy
 
 
 ---------
